@@ -21,41 +21,53 @@ var socket = io('https://pareekesp.tk/')
 socket.emit('userInformation', userStatus)
 
 function mainFunction(time) {
-  navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-    var madiaRecorder = new MediaRecorder(stream)
-    madiaRecorder.start()
-
-    var audioChunks = []
-
-    madiaRecorder.addEventListener('dataavailable', function (event) {
-      audioChunks.push(event.data)
+  navigator.mediaDevices
+    .getUserMedia({
+      audio: {
+        echoCancellationType: 'system',
+        echoCancellation: true,
+        noiseSuppression: true,
+        sampleRate: 24000,
+        sampleSize: 16,
+        channelCount: 2,
+        volume: 0.5,
+      },
     })
-
-    madiaRecorder.addEventListener('stop', function () {
-      var audioBlob = new Blob(audioChunks)
-
-      audioChunks = []
-
-      var fileReader = new FileReader()
-      fileReader.readAsDataURL(audioBlob)
-      fileReader.onloadend = function () {
-        if (!userStatus.microphone || !userStatus.online) return
-
-        var base64String = fileReader.result
-        socket.emit('voice', base64String)
-      }
-
+    .then((stream) => {
+      var madiaRecorder = new MediaRecorder(stream)
       madiaRecorder.start()
+
+      var audioChunks = []
+
+      madiaRecorder.addEventListener('dataavailable', function (event) {
+        audioChunks.push(event.data)
+      })
+
+      madiaRecorder.addEventListener('stop', function () {
+        var audioBlob = new Blob(audioChunks)
+
+        audioChunks = []
+
+        var fileReader = new FileReader()
+        fileReader.readAsDataURL(audioBlob)
+        fileReader.onloadend = function () {
+          if (!userStatus.microphone || !userStatus.online) return
+
+          var base64String = fileReader.result
+          socket.emit('voice', base64String)
+        }
+
+        madiaRecorder.start()
+
+        setTimeout(function () {
+          madiaRecorder.stop()
+        }, time)
+      })
 
       setTimeout(function () {
         madiaRecorder.stop()
       }, time)
     })
-
-    setTimeout(function () {
-      madiaRecorder.stop()
-    }, time)
-  })
 
   socket.on('send', function (data) {
     var audio = new Audio(data)
