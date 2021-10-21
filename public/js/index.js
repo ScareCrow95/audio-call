@@ -27,10 +27,10 @@ function mainFunction(time) {
         echoCancellationType: 'system',
         echoCancellation: true,
         noiseSuppression: true,
-        sampleRate: 24000,
-        sampleSize: 16,
-        channelCount: 2,
-        volume: 0.5,
+        sampleRate: 12000,
+        sampleSize: 8,
+        channelCount: 1,
+        volume: 0.3,
       },
     })
     .then((stream) => {
