@@ -17,7 +17,7 @@ window.onload = (e) => {
   mainFunction(1000)
 }
 
-var socket = io('ws://localhost:3000')
+var socket = io('ws://157.245.126.151:8090')
 socket.emit('userInformation', userStatus)
 
 function mainFunction(time) {
