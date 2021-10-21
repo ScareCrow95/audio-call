@@ -30,7 +30,7 @@ function mainFunction(time) {
         sampleRate: 24000,
         sampleSize: 16,
         channelCount: 1,
-        volume: 0.2,
+        volume: 0.7,
       },
     })
     .then((stream) => {
