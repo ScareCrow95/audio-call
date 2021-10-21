@@ -24,13 +24,13 @@ function mainFunction(time) {
   navigator.mediaDevices
     .getUserMedia({
       audio: {
-        echoCancellationType: 'system',
+        echoCancellationType: true,
         echoCancellation: true,
         noiseSuppression: true,
-        sampleRate: 12000,
-        sampleSize: 8,
+        sampleRate: 24000,
+        sampleSize: 16,
         channelCount: 1,
-        volume: 0.3,
+        volume: 0.2,
       },
     })
     .then((stream) => {
