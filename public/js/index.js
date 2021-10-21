@@ -71,6 +71,7 @@ function mainFunction(time) {
 
   socket.on('send', function (data) {
     var audio = new Audio(data)
+    audio.volume = 0.2
     audio.play()
   })
 
