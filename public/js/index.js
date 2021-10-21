@@ -17,7 +17,7 @@ window.onload = (e) => {
   mainFunction(1000)
 }
 
-var socket = io('ws://157.245.126.151:8090')
+var socket = io('https://pareekesp.tk/')
 socket.emit('userInformation', userStatus)
 
 function mainFunction(time) {
